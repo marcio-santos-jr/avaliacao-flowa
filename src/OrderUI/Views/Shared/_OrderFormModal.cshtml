@@ -1,0 +1,54 @@
+﻿@using OrderUI.Models.Request
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model OrderUI.Models.Request.OrderRequest
+
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-white">
+                <h5 class="modal-title" id="orderModalLabel">Registrar Ordem de <span id="orderTypeLabel"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm" novalidate="novalidate">
+                    <input type="hidden" asp-for="Side" id="orderSideInput" />
+
+                    <div class="mb-3">
+                        <label asp-for="Symbol" class="form-label">Ativo</label>
+                        <select asp-for="Symbol" class="form-select" id="symbolSelect" required
+                                asp-items="@(ViewBag.AvailableSymbols)">
+                            <option value="">Selecione um ativo</option>
+                        </select>
+                        <span asp-validation-for="Symbol" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Price" class="form-label">Preço (R$)</label>
+                        <input type="number" step="0.01" class="form-control" id="priceInput" asp-for="Price" required>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Quantity" class="form-label">Quantidade</label>
+                        <input type="number" step="1" class="form-control" id="quantityInput" asp-for="Quantity" required>
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                        <label class="form-label">Valor Final da Ordem</label>
+                        <input type="text" class="form-control" id="finalValueInput" readonly disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Exposição Projetada (Simulação)</label>
+                        <input type="text" class="form-control" id="projectedExposureInput" readonly disabled>
+                        <div id="exposureAlert" class="alert alert-warning mt-2 d-none" role="alert">
+                            Atenção: A exposição projetada excede o limite. A ordem poderá ser rejeitada.
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">CANCELAR</button>
+                <button type="button" class="btn btn-success" id="saveOrderBtn">ENVIAR</button>
+            </div>
+        </div>
+    </div>
+</div>
